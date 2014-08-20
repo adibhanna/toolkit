@@ -17,7 +17,7 @@ class Router extends \Illuminate\Routing\Router
     {
         $attributes['prefix'] = $prefix;
 
-        $file = app_path() . '/' . Config::get('toolkit::routes.directory') . '/' . $file;
+        $file = app_path() . '/' . Config::get('toolkit::config.routes.directory') . '/' . $file;
 
         parent::group($attributes, function() use($file)
         {
