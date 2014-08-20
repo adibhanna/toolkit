@@ -1,6 +1,4 @@
-<?php namespace Ollieread\Toolkit
-;
-use Illuminate\Support\Facades\Config;
+<?php namespace Ollieread\Toolkit;
 
 class Router extends \Illuminate\Routing\Router
 {
