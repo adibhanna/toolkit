@@ -26,36 +26,4 @@ class Router extends \Illuminate\Routing\Router
         });
     }
 
-    /**
-     * Override the route resource, this prevents it from being used while not in
-     * debug, largely because it's lazy and I don't want it being used on my
-     * applications!
-     *
-     * @param string $name
-     * @param string $controller
-     * @param array  $options
-     */
-    public function resource($name, $controller, array $options = array())
-    {
-        if(Config::get('app.debug')) {
-            parent::resource($name, $controller, $options);
-        }
-    }
-
-    /**
-     * Override the route controller, this prevents it from being used while not in
-     * debug, largely because it's lazy and I don't want it being used on my
-     * applications!
-     *
-     * @param string $uri
-     * @param string $controller
-     * @param array  $names
-     */
-    public function controller($uri, $controller, $names = array())
-    {
-        if(Config::get('app.debug')) {
-            parent::resource($uri, $controller, $names);
-        }
-    }
-
 }
