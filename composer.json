@@ -17,7 +17,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Ollieread\\Toolkit": "src/Ollieread/Toolkit/"
+            "Ollieread\\Toolkit\\": "src/Ollieread/Toolkit/"
         }
     },
     "minimum-stability": "stable"
