@@ -7,7 +7,6 @@ A small toolkit that I, Ollie, use for various projects.
 
  - [Router](#router)
    - [Route::file()](#router-file)
-   - [Modifications](#router-modifications)
  - Input
    - Nothing yet
  - [Validators](#validators)
@@ -60,19 +59,6 @@ Route::file('/user', 'user.php', [
     'namespace' => 'MyApp\Controllers\User', 
     'before' => 'auth'
 ]);
-```
-<a name="router-modifications" />
-###Modifications###
-
-There are two modifications made to the Router.
-
-####Route::controller()####
-
-This will no longer work while debug mode is disabled in `app/config/app.php`. This is because this method should not be used in production and instead developers should be in the habit of defining routes to secure and control their app accordingly.
-
-####Route::resource()####
-
-This will also no longer work while debug mode is disabled in `app/config/app.php`. This is because it has no use, the only time you should be using methods that aren't POST or GET, are when you're writing an API, and when you're writing an API you should be clearly defining all of your routes.
 
 <a name="validators" />
 ##Validators##
