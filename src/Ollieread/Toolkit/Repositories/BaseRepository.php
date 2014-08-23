@@ -1,6 +1,7 @@
 <?php namespace Ollieread\Toolkit\Repositories;
 
 use Illuminate\Database\Eloquent\Model as Eloquent;
+use Illuminate\Support\Facades\Config;
 
 /**
  * Class BaseRepository
@@ -151,6 +152,8 @@ class BaseRepository
             $model = $id;
         }
 
+        $data = $this->tidy($model, $data);
+
         $this->validator->validForUpdate($data);
 
         $model->fill($data);
@@ -192,6 +195,29 @@ class BaseRepository
     public function wipe()
     {
         return $this->make()->truncate();
+    }
+
+    /**
+     * @param Eloquent $model
+     * @param array $data
+     * @return array
+     */
+    protected function tidy(Eloquent $model, array $data)
+    {
+        $empty = Config::get('toolkit::pre_update_empty', true);
+        $clean = Config::get('toolkit::pre_update_clean', true);
+
+        foreach($data as $key => $value) {
+            if($empty && empty($value)) {
+                unset($data[$key]);
+            } else {
+                if ($clean && $model->$key == $value) {
+                    unset($data[$key]);
+                }
+            }
+        }
+
+        return $data;
     }
 
 }

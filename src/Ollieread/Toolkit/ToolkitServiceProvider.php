@@ -1,6 +1,7 @@
 <?php namespace Ollieread\Toolkit;
 
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\ServiceProvider;
@@ -59,13 +60,20 @@ class ToolkitServiceProvider extends ServiceProvider
      */
     protected function registerErrorHandlers()
     {
-        App::error(function(ValidationException $e)
-        {
-            $referer = Request::server('HTTP_REFERER');
-            if(!empty($referer)) {
-                return Redirect::back()->withInput()->withErrors($e->getErrors());
-            }
-        });
+        if(Config::get('toolkit::catch_validation', true)) {
+
+            App::error(function (ValidationException $e) {
+                // Here we check the referer so that we don't get 'unable to redirect to empty url' errors.
+                $referer = Request::server('HTTP_REFERER');
+
+                if (!empty($referer)) {
+                    // Send the input and the errors
+                    return Redirect::back()->withInput()->withErrors($e->getErrors());
+                }
+
+            });
+
+        }
     }
 
 }
