@@ -82,22 +82,34 @@ class BaseRepository
      * @param null $key
      * @param bool $select
      * @param int  $id
+     * @param bool $sortField
      *
      * @return array
      */
-    public function lists($value, $key = null, $select = false, $id = 0)
+    public function lists($value, $key = null, $select = false, $id = 0, $sortField = false)
     {
-        $list = $this->make()->lists($value, $key);
+        $list = $this->make();
+
+        if($sortField && is_string($sortField)) {
+            $list = $list->orderBy($sortField);
+        }
+
+        $list = $list->lists($value, $key);
 
         if(!$select) {
             return $list;
         } else {
-            $return = ['Please Select One'];
+            $return = [-1 => 'Please select'];
 
             foreach($list as $key => $value) {
-                if($id != 0 && $key == $id) {
+                if(is_array($id)) {
+                    if(in_array($key, $id)) {
+                        continue;
+                    }
+                } elseif($id != 0 && $key == $id) {
                     continue;
                 }
+
                 $return[$key] = $value;
             }
 

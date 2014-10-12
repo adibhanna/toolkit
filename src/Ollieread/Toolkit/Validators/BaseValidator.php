@@ -1,27 +1,11 @@
-<?php namespace Ollieread\Toolkit\Validators;
+<?php namespace Ollieread\Toolkito\Validators;
 
 use Illuminate\Validation\Factory;
 use Ollieread\Toolkit\Exceptions\ValidationException;
 
 abstract class BaseValidator
 {
-
-    /**
-     * The validation rules to apply.
-     *
-     * Create and update are set as default so that we don't get key not found.
-     *
-     * @var array
-     */
     public static $rules    = ['create' => [], 'update' => []];
-
-    /**
-     * Custom messages for the validation rules.
-     *
-     * Again, create and update are set so that we don't get key not found errors.
-     *
-     * @var array
-     */
     public static $messages = ['create' => [], 'update' => []];
 
     /**
@@ -37,14 +21,6 @@ abstract class BaseValidator
         $this->validator = $validator;
     }
 
-    /**
-     * Catch the validation and run for the action.
-     *
-     * @param $method
-     * @param $arguments
-     * @return bool
-     * @throws ValidationException
-     */
     public function __call($method, $arguments)
     {
         if (starts_with($method, 'validFor')) {
@@ -69,20 +45,21 @@ abstract class BaseValidator
     }
 
     /**
-     * This handles the calling of the individual validation actions.
+     * Generic method
      *
-     * @param $action
-     * @param array $data
-     * @param array $rules
-     * @param array $messages
+     * @param String $action   The action that define the validation. It corresponds to the array key on the Validator file.
+     * @param array  $data     Array of data to validate against.
+     * @param array  $rules    Additionnal rules that could come from the controller.
+     * @param array  $messages Additionnal messages that could come from the controller.
+     *
      * @return bool
-     * @throws ValidationException
      * @throws \Exception
+     * @throws ValidationException
      */
-    protected function validFor($action, array $data, array $rules = [], array $messages = [])
+    public function validFor($action, array $data, array $rules = [], array $messages = [])
     {
         if (!isset($action) || is_array($action) || !is_string($action)) {
-            throw new \Exception('Invalid valid for ' . $action);
+            throw new \Exception('Invalid validation rulset for ' . $action);
         }
 
         $rules    = array_key_exists($action, static::$rules)    ? array_merge(static::$rules[$action], $rules) : $rules;
@@ -96,16 +73,17 @@ abstract class BaseValidator
      *
      * @param array $data
      * @param array $rules
+     * @param array $messages
      *
      * @return bool
      * @throws ValidationException
      */
-    private function fire(array $data, array $rules = [])
+    private function fire(array $data, array $rules = [], array $messages = [])
     {
-        $validation = $this->validator->make($data, $rules);
+        $validation = $this->validator->make($data, $rules, $messages);
 
         if ( $validation->fails()) throw new ValidationException($validation->messages());
-
         return true;
     }
+
 }
