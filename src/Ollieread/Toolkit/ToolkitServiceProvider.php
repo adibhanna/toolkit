@@ -23,6 +23,11 @@ class ToolkitServiceProvider extends ServiceProvider
         $this->registerErrorHandlers();
 	}
 
+    public function boot()
+    {
+        $this->package('ollieread/toolkit');
+    }
+
     /**
      * Overrides the router so that we can use our custom methods.
      */
