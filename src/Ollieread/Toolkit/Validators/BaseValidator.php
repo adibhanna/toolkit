@@ -1,4 +1,4 @@
-<?php namespace Ollieread\Toolkito\Validators;
+<?php namespace Ollieread\Toolkit\Validators;
 
 use Illuminate\Validation\Factory;
 use Ollieread\Toolkit\Exceptions\ValidationException;
