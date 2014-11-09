@@ -33,16 +33,7 @@ class ToolkitServiceProvider extends ServiceProvider
      */
     protected function registerRouterOverride()
     {
-        $this->app['router'] = $this->app->share(function($app)
-        {
-            $router = new Router($app['events'], $app);
-            if ($app['env'] == 'testing')
-            {
-                $router->disableFilters();
-            }
 
-            return $router;
-        });
     }
 
     /**
