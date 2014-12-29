@@ -220,12 +220,8 @@ class BaseRepository
         $clean = Config::get('toolkit::pre_update_clean', true);
 
         foreach($data as $key => $value) {
-            if($empty && empty($value)) {
+            if(($empty && empty($value)) || ($clean && $model->$key == $value)) {
                 unset($data[$key]);
-            } else {
-                if ($clean && $model->$key == $value) {
-                    unset($data[$key]);
-                }
             }
         }
 

@@ -30,6 +30,8 @@ class ToolkitServiceProvider extends ServiceProvider
 
     /**
      * Overrides the router so that we can use our custom methods.
+     *
+     * Removed for Laravel 5.0 as it's not needed
      */
     protected function registerRouterOverride()
     {
